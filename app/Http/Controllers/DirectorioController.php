@@ -28,7 +28,12 @@ class DirectorioController extends Controller{
 
     //Post
     public function store(Request $request){
+
         $this->validateData($request);
+
+        if($request->has('url_foto')){
+            $input['url_foto'] = $this->loadPhoto($request->url_foto);
+        }
 
         $input = $request->all();
         Directorio::create($input);
@@ -43,6 +48,11 @@ class DirectorioController extends Controller{
     public function update($id, Request $request){
         $this->validateData($request, $id);
         $input = $request->all();
+
+        if($request->has('url_foto')){
+            $input['url_foto'] = $this->loadPhoto($request->url_foto);
+        }
+
         $directorio = Directorio::find($id);
         $directorio->update($input);
 
@@ -79,6 +89,12 @@ class DirectorioController extends Controller{
             'telefono' => 'required|unique:directorios,telefono'. $ruleUpdate
             
         ]);
+    }
+
+    private function loadPhoto($photo){
+        $nombreArchivo = time() . "." . $photo->getClientOriginalExtension();
+        $photo->move(base_path('public/fotografias'), $nombreArchivo);
+        return $nombreArchivo;
     }
 
 
