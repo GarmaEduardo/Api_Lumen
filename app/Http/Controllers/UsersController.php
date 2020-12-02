@@ -1,26 +1,29 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use App\Models\Users;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
-class UsersController extends Controller{
+class UserController extends Controller
+{
 
-    public function index(){
-
-        return Users::all();
-    }
-
-
-    public function store(Request $request){
-
-        $datos = $request->all();
-        Users::create($datos);
+    //Post
+    public function store(Request $request)
+    {
+        $input = $request->all();
+        $input['password'] = Hash::make($request->password);
+        User::create($input);
 
         return response()->json([
             'res' => true,
-            'message' => 'Usuario registrado correctamente'
+            'message' => 'Registro insertado'
         ]);
+    }
 
+
+    public function login(Request $request){
+        
     }
 }

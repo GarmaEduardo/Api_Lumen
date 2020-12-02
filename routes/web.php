@@ -17,15 +17,17 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-//RUTAS DIRECTORIOS
-$router->get('directorios',['as' => 'directorios', 'uses' => 'DirectorioController@index']);
-$router->get('directorios/{id}',['as' => 'directorios.show', 'uses' => 'DirectorioController@show']);
-$router->post('directorios',['as' => 'directorios.store', 'uses' => 'DirectorioController@store']);
-$router->put('directorios/{id}',['as' => 'directorios.update', 'uses' => 'DirectorioController@update']);
-$router->delete('directorios/{id}',['as' => 'directorios.delete', 'uses' => 'DirectorioController@delete']);
+//RUTAS USER
+$router->post('user', ['as' => 'user.store', 'uses' => 'UserController@store']);
+$router->post('login', ['as' => 'login', 'uses' => 'UserController@login']);
 
 
-//RUTAS USERS
-$router->get('users',['as' => 'users', 'uses' => 'UsersController@index']);
-$router->post('users',['as' => 'users.store', 'uses' => 'UsersController@store']);
+$router->group(['middleware' => 'auth'], function () use ($router) {
+    //RUTAS DIRECTORIOS
+    $router->get('directorios', ['as' => 'directorios', 'uses' => 'DirectorioController@index']);
+    $router->get('directorios/{id}', ['as' => 'directorios.show', 'uses' => 'DirectorioController@show']);
+    $router->post('directorios', ['as' => 'directorios.store', 'uses' => 'DirectorioController@store']);
+    $router->put('directorios/{id}', ['as' => 'directorios.update', 'uses' => 'DirectorioController@update']);
+    $router->delete('directorios/{id}', ['as' => 'directorios.delete', 'uses' => 'DirectorioController@delete']);
 
+});
