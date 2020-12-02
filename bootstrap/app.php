@@ -93,6 +93,8 @@ $app->routeMiddleware([
 
 // $app->register(App\Providers\AppServiceProvider::class);
     $app->register(App\Providers\AuthServiceProvider::class);
+    $app->register(Fruitcake\Cors\CorsServiceProvider::class);
+    $app->configure('cors');
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*
@@ -111,5 +113,10 @@ $app->router->group([
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
+
+$app->middleware([
+    // ...
+    Fruitcake\Cors\HandleCors::class,
+]);
 
 return $app;
