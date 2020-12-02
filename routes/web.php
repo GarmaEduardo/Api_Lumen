@@ -30,4 +30,10 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->put('directorios/{id}', ['as' => 'directorios.update', 'uses' => 'DirectorioController@update']);
     $router->delete('directorios/{id}', ['as' => 'directorios.delete', 'uses' => 'DirectorioController@delete']);
 
+    $router->post('logout', ['as' => 'logout', 'uses' => 'UserController@logout']);
+
+    $router->get('userNow', function () use ($router){
+        return auth()->user();
+    });
+
 });

@@ -64,4 +64,16 @@ class UserController extends Controller
 
         
     }
+
+
+    public function logout(){
+        $user = auth()->user();
+        $user->api_token = null;
+        $user->save();
+        
+        return response()->json([
+            'res' => true,
+            'message' => 'Has cerrado sesión',
+        ]);
+    }
 }
